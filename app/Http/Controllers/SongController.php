@@ -38,7 +38,7 @@ class SongController extends Controller
     public function show($index)
     {   
         $song = $this->songs[$index] ?? 'Song not found';
-        return view('songs.show', compact('song'));
+        return view('songs.show', compact('song', 'index'));
     }
 
     /**
