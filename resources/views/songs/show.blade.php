@@ -8,6 +8,6 @@
 <body>
     <h1>Song Details</h1>
     <p>{{ $song }}</p>
-    <a href="{{ route('songs.index') }}">Back to list</a>
+    <a href="{{ route('index') }}">Back to list</a>
 </body>
 </html>

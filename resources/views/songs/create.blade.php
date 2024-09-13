@@ -12,5 +12,7 @@
         <input type="text" id="song" name="song">
         <button type="submit">Save</button>
     </form>
+    <br>
+    <a href="{{ route('index') }}">Back to list</a>
 </body>
 </html>

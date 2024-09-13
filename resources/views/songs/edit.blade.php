@@ -13,6 +13,6 @@
         <button type="submit">Save</button>
     </form>
     <br>
-    <a href="{{ route('songs.index') }}">Back to list</a>
+    <a href="{{ route('index') }}">Back to list</a>
 </body>
 </html>
