@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
+use App\Models\Song;
 
 class SongController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    private $songs = ['Living on a prayer', 'Nothing else matters', 'Thunderstruck', 'Back in black', 'Ace of spades'];
     public function index()
     {
-        $songs = $this->songs;
+        $songs = Song::all();
         return view('songs.index', compact('songs'));
     }
 
@@ -29,40 +30,58 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'title' => 'required|string|max:100|regex:/^[a-zA-Z0-9\s]+$/',
+            'singer' => 'string|nullable|max:100|regex:/^[a-zA-Z0-9\s]+$/'  
+        ]);
+        Song::create([
+            'title' => $request->input('title'),
+            'singer' => $request->input('singer')
+        ]);
+        return redirect()->route('songs.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($index)
+    public function show(Song $song)
     {   
-        $song = $this->songs[$index] ?? 'Song not found';
-        return view('songs.show', compact('song', 'index'));
+        return view('songs.show', compact('song'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($index)
+    public function edit($id)
     {
-        $song = $this->songs[$index] ?? 'Song not found';
+        $song = Song::findOrFail($id);
         return view('songs.edit', compact('song'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($id, Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:100|regex:/^[a-zA-Z0-9\s]+$/',
+            'singer' => 'string|nullable|max:100|regex:/^[a-zA-Z0-9\s]+$/'  
+        ]);
+        $song = Song::find($id);
+        $song->title = request('title');
+        $song->singer = request('singer');
+        $song->save();
+        return redirect()->route('songs.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $song = Song::find($id);
+        $song->delete();
+        return redirect()->route('songs.index');
     }
 }

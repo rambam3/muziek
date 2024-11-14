@@ -7,8 +7,12 @@
 </head>
 <body>
     <h1>Song Details</h1>
-    <p>{{ $song }}</p>
-    <a href="{{route('edit', $index)}}">edit</a>
-    <a href="{{ route('index') }}">Back to list</a>
+    <p>title: {{ $song['title'] }}</p>
+    <?php if ($song['singer'] != '') {
+    echo "<p>singer: {$song['singer']}</p>";
+    }
+?>
+    <a href="{{route('songs.edit', $song)}}">edit</a>
+    <a href="{{ route('songs.index') }}">Back to list</a>
 </body>
 </html>

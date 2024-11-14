@@ -1,18 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>create</title>
-</head>
-<body>
-    <h1>Create Song</h1>
-    <form>
-        <label for="song">Song:</label>
-        <input type="text" id="song" name="song">
-        <button type="submit">Save</button>
-    </form>
-    <br>
-    <a href="{{ route('index') }}">Back to list</a>
-</body>
-</html>
+<h1>Create a New Song</h1>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form method="POST" action="{{ route('songs.store') }}">
+    @csrf
+    <label for="title">Song name:</label>
+    <input type="text" id="title" name="title">
+    <label for="singer">Singer name:</label>
+    <input type="text" id="singer" name="singer">
+    <button type="submit">Add Song</button>
+</form>
+<br>
+<a href="{{ route('songs.index') }}">Back to list</a>

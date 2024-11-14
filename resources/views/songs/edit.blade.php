@@ -7,12 +7,28 @@
 </head>
 <body>
     <h1>Edit Song</h1>
-    <form>
-        <label for="song">Song:</label>
-        <input type="text" id="song" name="song" value="{{ $song }}">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+    <form method="POST" action="{{ route('songs.update', $song->id) }}">
+
+        @csrf
+        @method('PUT')
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ $song->title }}" required>
+        <br>
+        <label for="singer">Singer:</label>
+        <input type="text" id="singer" name="singer" value="{{ $song->singer }}">
+        <br>
         <button type="submit">Save</button>
     </form>
     <br>
-    <a href="{{ route('index') }}">Back to list</a>
+    <a href="{{ route('songs.index') }}">Back to list</a>
 </body>
 </html>
