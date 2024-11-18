@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\BandController;
+use App\Http\Controllers\AlbumController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,3 +15,5 @@ Route::get('/', function () {
 // Route::post('/songs', [SongController::class, 'store'])->name('store');
 
 Route::resource('songs', SongController::class);
+Route::resource('bands', BandController::class);
+Route::resource('albums', AlbumController::class);
