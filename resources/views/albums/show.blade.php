@@ -10,9 +10,6 @@
     <div class="container mx-auto p-6">
         <div class="mb-6">
             <a href="{{ route('albums.index') }}" class="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition focus:outline-none focus:ring-4 focus:ring-blue-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11H7a1 1 0 100 2h3v3a1 1 0 102 0V9h3a1 1 0 100-2h-3V4a1 1 0 10-2 0v3z" clip-rule="evenodd" />
-                </svg>
                 Back to Album List
             </a>
         </div>

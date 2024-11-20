@@ -3,35 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>edit</title>
+    <title>Edit Album</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Edit Album</h1>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    <form method="POST" action="{{ route('albums.update', $album->id) }}">
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-6">
+        <div class="mb-6">
+            <a href="{{ route('albums.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                Back to Album List
+            </a>
+        </div>
 
-        @csrf
-        @method('PUT')
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="{{ $album->name }}" required>
-        <br>
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" value="{{ $album->year }}" required>
-        <br>
-        <label for="times_sold">Times Sold:</label>
-        <input type="number" id="times_sold" name="times_sold" value="{{ $album->times_sold }}" required>
-        <br>
-        <button type="submit">Save</button>
-    </form>
-    <br>
-    <a href="{{ route('albums.index') }}">Back to list</a>
+        <div class="bg-white p-8 rounded-lg shadow">
+            <h1 class="text-3xl font-bold text-center mb-6">💿 Edit Album</h1>
+
+            @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            <form method="POST" action="{{ route('albums.update', $album->id) }}">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-4">
+                    <label for="name" class="block font-semibold">Name:</label>
+                    <input type="text" id="name" name="name" value="{{ $album->name }}" class="w-full p-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="year" class="block font-semibold">Year:</label>
+                    <input type="number" id="year" name="year" value="{{ $album->year }}" class="w-full p-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="times_sold" class="block font-semibold">Times Sold:</label>
+                    <input type="number" id="times_sold" name="times_sold" value="{{ $album->times_sold }}" class="w-full p-2 border rounded" required>
+                </div>
+
+                <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded shadow hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

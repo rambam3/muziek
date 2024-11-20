@@ -4,44 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Band</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Edit Band</h1>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-6">
+        <div class="mb-6">
+            <a href="{{ route('bands.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                Back to Band List
+            </a>
         </div>
-    @endif
 
-    <form method="POST" action="{{ route('bands.update', $band->id) }}">
-        @csrf
-        @method('PUT')
-        
-        <label for="name">Band Name:</label>
-        <input type="text" id="name" name="name" value="{{ $band->name }}" required>
-        <br>
+        <div class="bg-white p-8 rounded-lg shadow">
+            <h1 class="text-3xl font-bold text-center mb-6">🎸 Edit Band</h1>
 
-        <label for="genre">Genre:</label>
-        <input type="text" id="genre" name="genre" value="{{ $band->genre }}" required>
-        <br>
+            @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
-        <label for="founded">Founded:</label>
-        <input type="number" id="founded" name="founded" value="{{ $band->founded }}" required>
-        <br>
+            <form method="POST" action="{{ route('bands.update', $band->id) }}">
+                @csrf
+                @method('PUT')
 
-        <label for="active_till">Active Till:</label>
-        <input type="text" id="active_till" name="active_till" value="{{ $band->active_till }}" placeholder="default heden">
-        <br>
+                <div class="mb-4">
+                    <label for="name" class="block font-semibold">Band Name:</label>
+                    <input type="text" id="name" name="name" value="{{ $band->name }}" class="w-full p-2 border rounded" required>
+                </div>
 
-        <button type="submit">Save</button>
-    </form>
+                <div class="mb-4">
+                    <label for="genre" class="block font-semibold">Genre:</label>
+                    <input type="text" id="genre" name="genre" value="{{ $band->genre }}" class="w-full p-2 border rounded" required>
+                </div>
 
-    <br>
-    <a href="{{ route('bands.index') }}">Back to list</a>
+                <div class="mb-4">
+                    <label for="founded" class="block font-semibold">Founded:</label>
+                    <input type="number" id="founded" name="founded" value="{{ $band->founded }}" class="w-full p-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="active_till" class="block font-semibold">Active Till:</label>
+                    <input type="text" id="active_till" name="active_till" value="{{ $band->active_till }}" placeholder="default: heden" class="w-full p-2 border rounded">
+                </div>
+
+                <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded shadow hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

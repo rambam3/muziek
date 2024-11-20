@@ -3,32 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>edit</title>
+    <title>Edit Song</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Edit Song</h1>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-    <form method="POST" action="{{ route('songs.update', $song->id) }}">
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-6">
+        <div class="mb-6">
+            <a href="{{ route('songs.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                Back to Song List
+            </a>
+        </div>
 
-        @csrf
-        @method('PUT')
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" value="{{ $song->title }}" required>
-        <br>
-        <label for="singer">Singer:</label>
-        <input type="text" id="singer" name="singer" value="{{ $song->singer }}">
-        <br>
-        <button type="submit">Save</button>
-    </form>
-    <br>
-    <a href="{{ route('songs.index') }}">Back to list</a>
+        <div class="bg-white p-8 rounded-lg shadow">
+            <h1 class="text-3xl font-bold text-center mb-6">🎵 Edit Song</h1>
+            
+            @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            <form method="POST" action="{{ route('songs.update', $song->id) }}">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-4">
+                    <label for="title" class="block font-semibold">Title:</label>
+                    <input type="text" id="title" name="title" value="{{ $song->title }}" class="w-full p-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="singer" class="block font-semibold">Singer:</label>
+                    <input type="text" id="singer" name="singer" value="{{ $song->singer }}" class="w-full p-2 border rounded">
+                </div>
+
+                <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded shadow hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
