@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\Band;
 use App\Models\Song;
+use DB;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
@@ -97,6 +98,7 @@ class AlbumController extends Controller
      */
     public function destroy($id)
     {
+        DB::table('album_song')->where('album_id', $id)->delete();
         $album = Album::find($id);
         $album->delete();
         return redirect()->route('albums.index');

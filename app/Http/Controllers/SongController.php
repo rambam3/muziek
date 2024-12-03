@@ -88,6 +88,7 @@ class SongController extends Controller
      */
     public function destroy($id)
     {
+        DB::table('album_song')->where('song_id', $id)->delete();
         $song = Song::find($id);
         $song->delete();
         return redirect()->route('songs.index');
