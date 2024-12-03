@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('albums', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement()->primary();
+            $table->id();
+            $table->foreignId('band_id')->constrained('bands')->restrictOnDelete();
             $table->string('name')->nullable(false);
             $table->integer('year')->limit(4)->nullable();
             $table->integer('times_sold')->nullable();
+
         });
     }
 

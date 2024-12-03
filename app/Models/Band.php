@@ -11,5 +11,10 @@ class Band extends Model
     protected $primaryKey = 'id';
     protected $keytype = 'int';
     public $timestamps = true;
-    protected $fillable = ['name','genre', 'founded', 'active_till'];
+    protected $fillable = ['name','genre', 'founded', 'active_till', 'band_id'];
+
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
 }

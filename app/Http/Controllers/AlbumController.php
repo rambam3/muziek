@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Band;
+use App\Models\Song;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
@@ -21,7 +23,8 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        return view('albums.create');
+        $bands = Band::all();
+        return view('albums.create', compact('bands'));
     }
 
     /**
@@ -39,6 +42,7 @@ class AlbumController extends Controller
             'name' => $request->input('name'),
             'year' => $request->input('year'),
             'times_sold' => $request->input('times_sold'),
+            'band_id' => $request->input('band_id'),
         ]);
 
         return redirect()->route('albums.index');
@@ -49,7 +53,9 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return view('albums.show', compact('album'));
+        $band = Band::find($album->band_id);
+        $albumSongs = $album->songs;
+        return view('albums.show', compact('album', 'band', 'albumSongs'));
     }
 
     /**
@@ -57,14 +63,17 @@ class AlbumController extends Controller
      */
     public function edit($id)
     {
-        $album = Album::findOrFail($id);
-        return view('albums.edit', compact('album'));
+        $album = Album::with('songs')->findOrFail($id);
+        $bands = Band::all();
+        $songs = Song::all();
+        $albumSongs = $album->songs;
+        return view('albums.edit', compact('album', 'bands', 'songs', 'albumSongs'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, Request $request)
+    public function update(Album $album, Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:100|regex:/^[a-zA-Z0-9\s]+$/',
@@ -72,13 +81,15 @@ class AlbumController extends Controller
             'times_sold' => 'required|integer|min:0',
         ]);
 
-        $album = Album::find($id);
-        $album->name = $request->input('name');
-        $album->year = $request->input('year');
-        $album->times_sold = $request->input('times_sold');
-        $album->save();
+        $album->update($request->except('_token','song_id','remove_song_id'));
+        if ($request->has('song_id')) {
+            $album->songs()->attach($request->input('song_id'));
+        }
+        if ($request->has('remove_song_id')) {
+            $album->songs()->detach($request->input('remove_song_id'));
+        }
 
-        return redirect()->route('albums.index');
+        return redirect()->route('albums.edit', $album->id);
     }
 
     /**

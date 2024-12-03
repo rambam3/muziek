@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\Song;
+use App\Models\Album;
 
 class SongController extends Controller
 {
@@ -53,26 +54,33 @@ class SongController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Song $song)
     {
-        $song = Song::findOrFail($id);
-        return view('songs.edit', compact('song'));
+        $song = Song::findOrFail($song->id);
+        $albums = Album::all();
+        $songAlbums = $song -> albums;
+        return view('songs.edit', compact('song', 'songAlbums', 'albums'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, Request $request)
+    public function update(Song $song, Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:100|regex:/^[a-zA-Z0-9\s]+$/',
             'singer' => 'string|nullable|max:100|regex:/^[a-zA-Z0-9\s]+$/'  
         ]);
-        $song = Song::find($id);
-        $song->title = request('title');
-        $song->singer = request('singer');
-        $song->save();
-        return redirect()->route('songs.index');
+
+        $song->update($request->except('_token','album_id','remove_album_id'));
+        if ($request->has('album_id')) {
+            $song->albums()->attach($request->input('album_id'));
+        }
+        if ($request->has('remove_album_id')) {
+            $song->albums()->detach($request->input('remove_album_id'));
+        }
+
+        return redirect()->route('songs.edit', $song->id);
     }
 
     /**

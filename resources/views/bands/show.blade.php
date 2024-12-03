@@ -21,6 +21,18 @@
             <p class="text-lg mb-4"><span class="font-semibold">Founded:</span> {{ $band['founded'] }}</p>
             <p class="text-lg mb-4"><span class="font-semibold">Active Till:</span> {{ $band['active_till'] }}</p>
 
+            @if($albums->isEmpty())
+                <p class="text-lg mb-4">Deze band heeft nog geen albums.</p>
+            @else
+                <p class="text-lg mb-4 font-semibold">Albums:</p>
+                <ul class="list-disc pl-6">
+                    @foreach ($albums as $album)
+                        <li class="text-lg mb-4 list-inside"> {{ $album['name'] }} ({{$album['year']}})</li>
+                    @endforeach
+                </ul>
+            @endif
+
+
             <div class="mt-6 flex justify-center">
                 <a href="{{ route('bands.edit', $band) }}" class="inline-block bg-yellow-500 text-white px-6 py-3 rounded shadow hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-yellow-300">
                     Edit Band

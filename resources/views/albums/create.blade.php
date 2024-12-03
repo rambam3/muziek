@@ -45,6 +45,15 @@
                     <input type="number" id="times_sold" name="times_sold" class="w-full p-2 border rounded" required>
                 </div>
 
+                <div class="mb-4">
+                    <label for="band_id" class="block font-semibold">Band:</label>
+                    <select name="band_id" id="band_id" class="w-full p-2 border rounded" required>
+                        <option value="">Select a Band</option>
+                        @foreach ($bands as $band)
+                            <option value="{{ $band['id'] }}">{{ $band['name'] }}</option>
+                        @endforeach
+                    </select>
+
                 <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded shadow hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300">
                     Add Album
                 </button>

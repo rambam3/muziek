@@ -11,5 +11,14 @@ class Album extends Model
     protected $primaryKey = 'id';
     protected $keytype = 'int';
     public $timestamps = false;
-    protected $fillable = ['name', 'year', 'times_sold'];
+    protected $fillable = ['name', 'year', 'times_sold', 'band_id'];
+
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class, 'album_song');
+    }
+    public function bands()
+    {
+        return $this->belongsTo(Band::class);
+    }
 }

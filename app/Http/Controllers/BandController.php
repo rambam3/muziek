@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Band;
+use App\Models\Album;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Constraint\IsEmpty;
+use DB;
 
 class BandController extends Controller
 {
@@ -86,7 +88,8 @@ class BandController extends Controller
      */
     public function show(Band $band)
     {
-        return view('bands.show', compact('band'));
+        $albums = Album::where('band_id', $band->id)->get();
+        return view('bands.show', compact('band', 'albums'));
     }
 
     /**
@@ -152,7 +155,14 @@ class BandController extends Controller
      */
     public function destroy(Band $band)
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $albums = Album::where('band_id', $band->id)->get();
+        foreach ($albums as $album) {
+            $album->band_id = 0;
+            $album->save();
+        }
         $band->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         return redirect()->route('bands.index');
     }
 }

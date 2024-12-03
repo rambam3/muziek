@@ -31,7 +31,7 @@
                 </form>
             </li>
             @endforeach
-        </ul>
+        </ul>   
           
         <div class="mt-12 text-center">
             <a href="{{ route('songs.create') }}" class="inline-block bg-green-500 text-white px-8 py-4 rounded-lg shadow hover:bg-green-600 transition focus:outline-none focus:ring-4 focus:ring-green-400">
